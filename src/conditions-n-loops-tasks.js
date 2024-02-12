@@ -92,8 +92,11 @@ function canQueenCaptureKing(queen, king) {
  *  2, 2, 5   => false
  *  3, 0, 3   => false
  */
-function isIsoscelesTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isIsoscelesTriangle(a, b, c) {
+  if (a === b || a === c || b === c) {
+    return a + b > c && a + c > b && b + c > a;
+  }
+  return false;
 }
 
 /**
@@ -110,8 +113,35 @@ function isIsoscelesTriangle(/* a, b, c */) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  let result = '';
+  let remainingNum = num;
+  if (remainingNum >= 30) {
+    result += 'XXX';
+    remainingNum -= 30;
+  } else if (remainingNum >= 20) {
+    result += 'XX';
+    remainingNum -= 20;
+  } else if (remainingNum >= 10) {
+    result += 'X';
+    remainingNum -= 10;
+  }
+  if (remainingNum >= 9) {
+    result += 'IX';
+    remainingNum -= 9;
+  } else if (remainingNum >= 5) {
+    result += 'V';
+    remainingNum -= 5;
+  } else if (remainingNum >= 4) {
+    result += 'IV';
+    remainingNum -= 4;
+  }
+  while (remainingNum > 0) {
+    result += 'I';
+    remainingNum -= 1;
+  }
+
+  return result;
 }
 
 /**
@@ -132,6 +162,45 @@ function convertToRomanNumerals(/* num */) {
 function convertNumberToString(/* numberStr */) {
   throw new Error('Not implemented');
 }
+// function convertNumberToString(numberStr) {
+//   const digitWords = [
+//     'zero',
+//     'one',
+//     'two',
+//     'three',
+//     'four',
+//     'five',
+//     'six',
+//     'seven',
+//     'eight',
+//     'nine',
+//   ];
+
+//   let result = '';
+//   let numStr = numberStr;
+
+//   if (numStr[0] === '-') {
+//     result += 'minus ';
+//     numStr = numStr.substring(1);
+//   }
+
+//   for (let i = 0; i < numStr.length; i += 1) {
+//     const char = numStr[i];
+
+//     if (char >= '0' && char <= '9') {
+//       const digitWord = digitWords[parseInt(char, 10)];
+//       result += `${digitWord} `;
+//     } else if (char === '.') {
+//       result += 'point ';
+//     } else {
+//       result += `${char} `;
+//     }
+//   }
+//   result = result.replace(/ ,/g, ' ');
+//   result = result.trim();
+
+//   return result;
+// }
 
 /**
  * Determines whether a string is a palindrome.
@@ -145,8 +214,20 @@ function convertNumberToString(/* numberStr */) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+
+function isPalindrome(str) {
+  let i = 0;
+  let j = str.length - 1;
+
+  while (i < j) {
+    if (str[i] !== str[j]) {
+      return false;
+    }
+
+    i += 1;
+    j -= 1;
+  }
+  return true;
 }
 
 /**
@@ -163,8 +244,13 @@ function isPalindrome(/* str */) {
  *  'qwerty', 'Q'     => -1
  *  'qwerty', 'p'     => -1
  */
-function getIndexOf(/* str, letter */) {
-  throw new Error('Not implemented');
+function getIndexOf(str, letter) {
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === letter) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 /**
@@ -182,8 +268,31 @@ function getIndexOf(/* str, letter */) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  let tempDigit = digit;
+  let tempNum = num;
+
+  if (num === 0 && digit === 0) {
+    return true;
+  }
+
+  tempDigit %= 10;
+
+  if (num < 0) {
+    tempNum = -num;
+  }
+
+  while (tempNum > 0) {
+    const lastDigit = tempNum % 10;
+
+    if (lastDigit === tempDigit) {
+      return true;
+    }
+
+    tempNum = Math.floor(tempNum / 10);
+  }
+
+  return false;
 }
 
 /**
@@ -199,8 +308,26 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  const n = arr.length;
+
+  for (let i = 0; i < n; i += 1) {
+    let leftSum = 0;
+    for (let j = 0; j < i; j += 1) {
+      leftSum += arr[j];
+    }
+
+    let rightSum = 0;
+    for (let k = i + 1; k < n; k += 1) {
+      rightSum += arr[k];
+    }
+
+    if (leftSum === rightSum) {
+      return i;
+    }
+  }
+
+  return -1;
 }
 
 /**
@@ -261,10 +388,25 @@ function rotateMatrix(/* matrix */) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
+// function sortByAsc(arr) {
+//   const sortedArr = arr;
+//   const n = sortedArr.length;
+
+//   for (let i = 0; i < n - 1; i += 1) {
+//     for (let j = 0; j < n - i - 1; j += 1) {
+//       if (sortedArr[j] > sortedArr[j + 1]) {
+//         const temp = sortedArr[j];
+//         sortedArr[j] = sortedArr[j + 1];
+//         sortedArr[j + 1] = temp;
+//       }
+//     }
+//   }
+
+//   return sortedArr;
+// }
 function sortByAsc(/* arr */) {
   throw new Error('Not implemented');
 }
-
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
  * Take into account that the string can be very long and the number of iterations is large. Consider how you can optimize your solution.
