@@ -351,9 +351,7 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
-}
+function getSpiralMatrix(/* size */) {}
 
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
@@ -370,8 +368,24 @@ function getSpiralMatrix(/* size */) {
  *    [7, 8, 9]         [9, 6, 3]
  *  ]                 ]
  */
-function rotateMatrix(/* matrix */) {
-  throw new Error('Not implemented');
+function rotateMatrix(matrix) {
+  const copiedMatrix = matrix;
+  const length = matrix.length;
+  const res = [];
+
+  for (let i = 0; i < length; i += 1) {
+    res[i] = [];
+    for (let j = 0; j < length; j += 1) {
+      res[i][j] = matrix[i][j];
+    }
+  }
+
+  for (let i = 0; i < length; i += 1) {
+    for (let j = len - 1; j >= 0; j -= 1) {
+      copiedMatrix[j][i] = res[length - i - 1][j];
+    }
+  }
+  return copiedMatrix;
 }
 
 /**
